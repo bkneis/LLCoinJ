@@ -4,7 +4,7 @@ contract LLCoinJ {
     address owner;
 
     // User address => loyaltyLine => balance
-    mapping(address => mapping(string => uint)) userLoyaltyLineBalance;
+    mapping(address => mapping(string => uint)) private userLoyaltyLineBalance;
 
     function LLCoinJ() {
         owner = msg.sender;
@@ -15,11 +15,11 @@ contract LLCoinJ {
         _;
     }
 
-    function getLineBalance(address user, string loyaltyLine) returns (uint) {
+    function getLineBalance(address user, string loyaltyLine) public returns (uint) {
         return userLoyaltyLineBalance[user][loyaltyLine];
     }
 
-    function updateLineBalance(address user, string loyaltyLine, uint newBalance) restricted {
+    function updateLineBalance(address user, string loyaltyLine, uint newBalance) public restricted {
         userLoyaltyLineBalance[user][loyaltyLine] = newBalance;
     }
 }
