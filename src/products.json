@@ -1,0 +1,23 @@
+[
+  {
+    "id": 0,
+    "name": "Ice Latte",
+    "vendor": "Coffee",
+    "picture": "images/ice-latte.jpg",
+    "price": "2.80"
+  },
+  {
+    "id": 1,
+    "name": "Trainers",
+    "vendor": "Shoes",
+    "picture": "images/shoe.jpg",
+    "price": "34.00"
+  },
+  {
+    "id": 2,
+    "name": "The old bristolian",
+    "vendor": "Cider",
+    "picture": "images/cider.jpg",
+    "price": "1.80"
+  }
+]

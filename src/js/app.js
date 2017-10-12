@@ -1,22 +1,29 @@
+var vendors = [];
+
 App = {
   web3Provider: null,
   contracts: {},
 
   init: function() {
     // Load pets.
-    $.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
+    $.getJSON('../products.json', function(data) {
+      var productRow = $('#productRow');
+      var productTemplate = $('#productTemplate');
+
+      var walletRow = $('#wallet');
+      var walletTemplate = $('#walletTemplate');
 
       for (i = 0; i < data.length; i ++) {
-        petTemplate.find('.panel-title').text(data[i].name);
-        petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+        vendors.push(data[i].vendor);
+        productTemplate.find('.panel-title').text(data[i].name);
+        productTemplate.find('img').attr('src', data[i].picture);
+        productTemplate.find('.price').text(data[i].price);
+        productTemplate.find('.btn-purchase').attr('data-vendor', data[i].vendor).attr('data-price', data[i].price);
 
-        petsRow.append(petTemplate.html());
+        productRow.append(productTemplate.html());
+
+        walletTemplate.find('.balance').html('<strong>' + data[i].vendor + ':</strong> Number of purchases until your next freebie is <span id="balance-' + data[i].vendor + '"></span>');
+        walletRow.append(walletTemplate.html());
       }
     });
 
@@ -24,9 +31,6 @@ App = {
   },
 
   initWeb3: function() {
-    /*
-     * Replace me...
-     */
       // Is there is an injected web3 instance?
       if (typeof web3 !== 'undefined') {
           App.web3Provider = web3.currentProvider;
@@ -41,76 +45,27 @@ App = {
   },
 
   initContract: function() {
-    /*
-     * Replace me...
-     */
-      $.getJSON('Adoption.json', function(data) {
-          // Get the necessary contract artifact file and instantiate it with truffle-contract.
-          var AdoptionArtifact = data;
-          App.contracts.Adoption = TruffleContract(AdoptionArtifact);
+      for (var i in vendors) {
+          if (vendors.hasOwnProperty(i)) {
+              $.getJSON(vendors[i] + '.json', function(data) {
+                  console.log('Adding the contract for vendor ', vendors[i]);
+                  // Get the necessary contract artifact file and instantiate it with truffle-contract.
+                  var artifact = data;
+                  App.contracts[vendors[i]] = TruffleContract(artifact);
 
-          // Set the provider for our contract.
-          App.contracts.Adoption.setProvider(App.web3Provider);
+                  // Set the provider for our contract.
+                  App.contracts[vendors[i]].setProvider(App.web3Provider);
 
-          // Use our contract to retieve and mark the adopted pets.
-          return App.markAdopted();
-      });
+                  // Use our contract to get the loyalty balance
+                  //Balance.get(vendors[i]);
+              });
+          }
+      }
 
     return App.bindEvents();
   },
 
   bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
-  },
-
-  markAdopted: function(adopters, account) {
-    /*
-     * Replace me...
-     */
-      var adoptionInstance;
-
-      App.contracts.Adoption.deployed().then(function(instance) {
-          adoptionInstance = instance;
-
-          return adoptionInstance.getAdopters.call();
-      }).then(function(adopters) {
-          for (i = 0; i < adopters.length; i++) {
-              if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-                  $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
-              }
-          }
-      }).catch(function(err) {
-          console.log(err.message);
-      });
-  },
-
-  handleAdopt: function() {
-    event.preventDefault();
-
-    var petId = parseInt($(event.target).data('id'));
-
-    /*
-     * Replace me...
-     */
-      var adoptionInstance;
-
-      web3.eth.getAccounts(function(error, accounts) {
-          if (error) {
-              console.log(error);
-          }
-
-          var account = accounts[0];
-
-          App.contracts.Adoption.deployed().then(function(instance) {
-              adoptionInstance = instance;
-
-              return adoptionInstance.adopt(petId, {from: account});
-          }).then(function(result) {
-              return App.markAdopted();
-          }).catch(function(err) {
-              console.log(err.message);
-          });
-      });
   }
 
 };
