@@ -21,7 +21,7 @@ App = {
 
         productRow.append(productTemplate.html());
 
-        walletTemplate.find('.balance').html('<strong>' + data[i].vendor + ':</strong> Number of purchases until your next freebie is <span id="balance-' + data[i].vendor + '"></span>');
+        walletTemplate.find('.balance').html('<strong>' + data[i].vendor + ':</strong> Number of purchases until your next freebie is <span id="balance-' + data[i].vendor + '">8</span>');
         walletRow.append(walletTemplate.html());
       }
     });
