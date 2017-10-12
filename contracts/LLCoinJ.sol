@@ -3,12 +3,8 @@ pragma solidity ^0.4.4;
 contract LLCoinJ {
     address owner;
 
-    struct Balance {
-        string loyaltyLine;
-        int ptsBalance;
-    }
-
-    mapping(address => Balance) userBalance;
+    // User address => loyaltyLine => balance
+    mapping(address => mapping(string => uint)) userLoyaltyLineBalance;
 
     function LLCoinJ() {
         owner = msg.sender;
