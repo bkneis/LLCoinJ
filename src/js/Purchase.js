@@ -18,7 +18,7 @@ Purchase = {
                         //set instance
                         CoffeeInstance = instance;
                         //run contract purchase function
-                        return CoffeeInstance.purchase(App.llCoin, {from: account});
+                        return CoffeeInstance.purchase(App.llCoin, userAccount);
                 }).then(function(result) {
                     App.getView();  //update view
                     return App.get();
