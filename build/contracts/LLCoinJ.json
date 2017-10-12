@@ -1,0 +1,14 @@
+{
+  "contract_name": "LLCoinJ",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    }
+  ],
+  "unlinked_binary": "0x60606040523415600e57600080fd5b5b60008054600160a060020a03191633600160a060020a03161790555b5b60368060396000396000f30060606040525b600080fd00a165627a7a723058206cb81dce59b53e214b3610e4781a4879af8280a44c326d08d175e8e820ccea830029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1507835742519
+}
