@@ -14,4 +14,12 @@ contract LLCoinJ {
         require(msg.sender == owner);
         _;
     }
+
+    function getLineBalance(address user, string loyaltyLine) returns (uint) {
+        return userLoyaltyLineBalance[user][loyaltyLine];
+    }
+
+    function updateLineBalance(address user, string loyaltyLine, uint newBalance) restricted {
+        userLoyaltyLineBalance[user][loyaltyLine] = newBalance;
+    }
 }
