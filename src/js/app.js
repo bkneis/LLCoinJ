@@ -1,4 +1,4 @@
-var vendors = ['Coffee', 'Shoes', 'Cider'];
+var vendors = ['Coffee'];
 
 App = {
   web3Provider: null,
@@ -51,9 +51,6 @@ App = {
           contract.deployed().then(function (instance) {
               console.log(instance);
               App.llCoin = instance;
-          }).then(function (balance) {
-              $('#balance-' + vendor).text(balance);
-              callback(balance);
           }).catch(function (err) {
               console.log('err', err.message);
           });
@@ -78,7 +75,12 @@ App = {
   },
 
   bindEvents: function() {
-    $(document).on('click', '.btn-purchase', Purchase.purchase());
+    $(document).on('click', '.btn-purchase', function() {
+        var vendor = $(this).data('vendor');
+        console.log(App.contracts[vendor]);
+        var vendor = $(this).data('vendor');
+        Purchase.purchase(vendor);
+    });
   },
 
   markAdopted: function(adopters, account) {

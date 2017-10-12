@@ -1,30 +1,29 @@
-var vendors = ['Coffee', 'Shoes'];
-
 /*---------------------
     purchase function
 -----------------------*/
 Purchase = {
-    purchase: function() {
+    purchase: function(vendor) {
         console.log("purchase()")
-        var LLCoinJInstance;
+        var CoffeeInstance;
 
         //get user accounts
         web3.eth.getAccounts(function(err, accounts) {
             if (err)
-                console.log(err);
+                console.error('getting acouns', err);
             else {
                 //get user account
                 var userAccount = accounts[0];
-                    App.contracts.vendors.deployed().then(function(instance) {			
-                    //set instance
-                    LLCoinJ = instance;
-                    //run contract purchase function
-                    return LLCoinJInstance.purchase({from: account});
+                    console.log('vend', vendor);
+                    App.contracts[vendor].deployed().then(function(instance) {
+                        //set instance
+                        CoffeeInstance = instance;
+                        //run contract purchase function
+                        return CoffeeInstance.purchase(App.llCoin, {from: account});
                 }).then(function(result) {
                     App.getView();  //update view
                     return App.get();
                 }).catch(function(err) {
-                    console.log(err.message);
+                    console.log('doing ourhc', err.message);
                 });
             }
         });
