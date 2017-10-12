@@ -1,0 +1,16 @@
+[
+  {
+    "id": 0,
+    "name": "Ice Latte",
+    "vendor": "Coffee",
+    "picture": "images/scottish-terrier.jpeg",
+    "price": 2000
+  },
+  {
+    "id": 1,
+    "name": "Black Trainers",
+    "vendor": "Shoes",
+    "picture": "images/scottish-terrier.jpeg",
+    "price": 40000
+  }
+]
