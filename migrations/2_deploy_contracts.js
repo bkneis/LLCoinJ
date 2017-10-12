@@ -1,5 +1,5 @@
-var Adoption = artifacts.require("./Adoption.sol");
+var LLCoinJ = artifacts.require("./LLCoinJ.sol");
 
 module.exports = function(deployer) {
-    deployer.deploy(Adoption);
+    deployer.deploy(LLCoinJ);
 };
