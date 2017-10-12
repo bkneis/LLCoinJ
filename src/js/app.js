@@ -60,14 +60,11 @@ App = {
   },
 
   bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
+    $(document).on('click', '.btn-purchase', Purchase.purchase());
   },
 
   markAdopted: function(adopters, account) {
-    /*
-     * Replace me...
-     */
-      var adoptionInstance;
+        var adoptionInstance;
 
       App.contracts.Adoption.deployed().then(function(instance) {
           adoptionInstance = instance;
