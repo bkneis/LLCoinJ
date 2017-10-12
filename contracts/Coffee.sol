@@ -25,7 +25,7 @@ contract Coffee {
             return false;
         }
 
-        LLCoinJ(llCoinJAddr).updateLineBalance(user, loyaltyLine, balance);
+        LLCoinJ(llCoinJAddr).updateLineBalance(user, loyaltyLine, balance - 10);
 
         return true;
     }
