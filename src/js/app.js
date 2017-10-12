@@ -1,4 +1,4 @@
-var vendors = [];
+var vendors = ['Coffee', 'Shoes', 'Cider'];
 
 App = {
   web3Provider: null,
@@ -14,7 +14,6 @@ App = {
       var walletTemplate = $('#walletTemplate');
 
       for (i = 0; i < data.length; i ++) {
-        vendors.push(data[i].vendor);
         productTemplate.find('.panel-title').text(data[i].name);
         productTemplate.find('img').attr('src', data[i].picture);
         productTemplate.find('.price').text(data[i].price);
@@ -45,21 +44,34 @@ App = {
   },
 
   initContract: function() {
+      $.getJSON('LLCoinJ.json', function(data) {
+          var art = data;
+          var contract = TruffleContract(art);
+          contract.setProvider(App.web3Provider);
+          contract.deployed().then(function (instance) {
+              console.log(instance);
+              App.llCoin = instance;
+          }).then(function (balance) {
+              $('#balance-' + vendor).text(balance);
+              callback(balance);
+          }).catch(function (err) {
+              console.log('err', err.message);
+          });
+      })
+      console.log('sdfsdf');
       for (var i in vendors) {
-          if (vendors.hasOwnProperty(i)) {
-              $.getJSON(vendors[i] + '.json', function(data) {
-                  console.log('Adding the contract for vendor ', vendors[i]);
-                  // Get the necessary contract artifact file and instantiate it with truffle-contract.
-                  var artifact = data;
-                  App.contracts[vendors[i]] = TruffleContract(artifact);
+          $.getJSON(vendors[i] + '.json', function(data) {
+              console.log('Adding the contract for vendor ', vendors[i]);
+              // Get the necessary contract artifact file and instantiate it with truffle-contract.
+              var artifact = data;
+              App.contracts[vendors[i]] = TruffleContract(artifact);
 
-                  // Set the provider for our contract.
-                  App.contracts[vendors[i]].setProvider(App.web3Provider);
+              // Set the provider for our contract.
+              App.contracts[vendors[i]].setProvider(App.web3Provider);
 
-                  // Use our contract to get the loyalty balance
-                  //Balance.get(vendors[i]);
-              });
-          }
+              // Use our contract to get the loyalty balance
+              //Balance.get(vendors[i]);
+          });
       }
 
     return App.bindEvents();

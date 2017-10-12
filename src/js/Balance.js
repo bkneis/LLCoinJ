@@ -19,7 +19,7 @@ var Balance = {
             var account = accounts[0];
             App.contracts[vendor].deployed().then(function (instance) {
                 balanceInstance = instance;
-                return balanceInstance.get.call({ from: account });
+                return balanceInstance.get.call(App.llCoin, { from: account });
             }).then(function (balance) {
                 $('#balance-' + vendor).text(balance);
                 callback(balance);
